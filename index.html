@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- CSS Imports -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div id="intro">
+        <h1>US Coronavirus Map</h1>
+        <p class="main">Coronavirus is spreading acrossing US. This study
+        scrapes related data afrom Twitter and counts realated tweets in states.
+        In addition, the cases announced by CDC has been add to the map</p>
+        <p>This application shows each state color coded based on number degrees.
+        To get more information about coronavirus for one of the states,
+        click on that region on the map.</p>
+      </div>
+      <div id="results" style="display: none;">
+        <h1 class="day-of-week">Day of Week</h1>
+        <p class="main">Your garbage collection day is <span class="day-of-week">
+        Day of Week</span>.</p>
+        <p>Please be sure to leave your garbage outside on <span class="day-of-week">
+        Day of Week</span>. If this week is a federal holiday, leave your
+        garbage outside on the following day.</p>
+      </div>
+    </div>
+    <!-- Map -->
+    <div id="map" class="map"></div>
+    <!-- Javascript Imports -->
+    <script src="../result_611.js"></script>
+    <script src="js/jquery-2.2.0.js"></script>
+    <script src="js/underscore.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/slideModel.js"></script>
+  </body>
+</html>

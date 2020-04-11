@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- Sidebar -->
-    <div id="sidebar" style="position: absolute; top:0; left: 0; width: 25%; height: 100%; padding: 20px; background-color: grey">
+    <div id="sidebar" style="position: absolute; top:0; left: 0; width: 20%; height: 100%; padding: 20px; background-color: grey">
       <h1 id="intro">US Coronavirus Map</h1>
         <p id='description'>Coronavirus is spreading acrossing US. This study
         scrapes related data afrom Twitter and counts realated tweets in states.
@@ -19,6 +19,15 @@
     </div>
     <!-- Map -->
     <div id="map" style="position: absolute; top:0; right: 0; height: 100%">  </div>
+    <!-- Legend -->
+    <div class="legend">
+      <div style="background-color: #FF2D2D; border-color: coral; width: 120px; font-size: 15pt; ">Very High</div>
+      <div style="background-color: #FFCF53; width: 120px; font-size: 15pt; ">High</div>
+      <div style="background-color: #EAFFC0; width: 120px; font-size: 15pt; ">Medium</div>
+      <div style="background-color: #A1D7FF; width: 120px; font-size: 15pt; ">Low</div>
+      <div style="background-color: #4D62FF; width: 120px; font-size: 15pt; ">Very Low</div>
+    </div>
+
     <!-- Javascript Imports -->
     <script src="js/jquery-2.2.0.js"></script>
     <script src="js/underscore.js"></script>
@@ -36,7 +45,7 @@
           filter: Filter1 ,
           style: polyStyle1},
           { intro: "Severe States",
-          description: "This map shows states over 10000 cases",
+          description: "This map shows states over 50000 coronavirus cases",
           color: "#FFFEC1",
           filter: Filter2 ,
           style:polyStyle2},
@@ -76,6 +85,7 @@
           $('#intro').text(slide.intro)
           $('#description').text(slide.description)
           $('#sidebar').css("background-color", slide.color)
+          $('.legend').show()
         }
 
         var next = function() {

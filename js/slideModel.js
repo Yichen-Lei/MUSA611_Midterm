@@ -1,4 +1,5 @@
 $('#backButton').hide();
+$('.legend').hide();
 /* =====================
 Leaflet Configuration
 ===================== */
@@ -16,7 +17,7 @@ var Stamen_TonerLite = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{
 }).addTo(map);
 
 /*read data*/
-var dataset = 'https://raw.githubusercontent.com/Yichen-Lei/MUSA611_Midterm/master/result_611.geojson';
+var dataset = 'https://raw.githubusercontent.com/Yichen-Lei/MUSA611_Midterm/master/result_5att.geojson';
 var featuregroup;
 
 
@@ -86,15 +87,15 @@ var Filter4= function(feature){
 
 var polyStyle4 = function(feature) {
   if (feature.properties.sentiment >0.5 ) {
-    return {fillColor: '#85FD55', fillOpacity: 0.4, weight: 1, color: 'white'};
+    return {fillColor: '#FF2D2D', fillOpacity: 0.4, weight: 1, color: 'white'};
   } else if (feature.properties.sentiment >0) {
-    return {fillColor: '#EDFF89', fillOpacity: 0.4, weight: 1, color: 'white'};
+    return {fillColor: '#FFCF53', fillOpacity: 0.4, weight: 1, color: 'white'};
   } else if (feature.properties.sentiment > -0.4) {
-    return {fillColor: '#FFF896', fillOpacity: 0.4, weight: 1, color: 'white'};
+    return {fillColor: '#EAFFC0', fillOpacity: 0.4, weight: 1, color: 'white'};
   } else if (feature.properties.sentiment >-0.5 ) {
-    return {fillColor: '#FFA24B', fillOpacity: 0.4, weight: 1, color: 'white'};
+    return {fillColor: '#A1D7FF', fillOpacity: 0.4, weight: 1, color: 'white'};
   } else {
-    return {fillColor: '#FF4B4B', fillOpacity: 0.4, weight: 1, color: 'white'};
+    return {fillColor: '#4D62FF', fillOpacity: 0.4, weight: 1, color: 'white'};
   }
 };
 

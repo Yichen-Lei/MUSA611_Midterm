@@ -1,6 +1,6 @@
 #sidebar {
   position: absolute;
-  width: 25%;
+  width: 20%;
   height: 100%;
   top: 0;
   left: 0;
@@ -10,16 +10,35 @@
 
 #map {
     position: absolute;
-    width: 75%;
+    width: 80%;
     height: 100%;
     top: 0;
     right: 0;
 }
 
 #intro {
-    font-size:24px;
+    font-size:26px;
     font-weight: bold;
 }
 #description {
-    font-size: 18px;
+  font-size: 18px;
+}
+
+#nextButton {
+  position: absolute;
+  left: 200px;
+  bottom: 50px;
+}
+
+#backButton{
+  position: absolute;
+  left: 30px;
+  bottom: 50px;
+}
+.legend {
+  position: absolute;
+  background-color: #fff;
+  z-index: 1000;
+  right: 30px;
+  bottom: 50px;
 }

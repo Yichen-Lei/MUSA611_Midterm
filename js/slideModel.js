@@ -1,6 +1,4 @@
-/* ================================
-Week 6 Assignment: Slide Model
-================================ */
+$('#backButton').hide();
 /* =====================
 Leaflet Configuration
 ===================== */
@@ -17,50 +15,143 @@ var Stamen_TonerLite = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{
   ext: 'png'
 }).addTo(map);
 
-
 /*read data*/
-var url = 'result_611.json';
- //var bbTeam = L.geoJSON(null, {onEachFeature: forEachFeature, style: style});
-  var bbTeam = L.geoJSON(null, {
-        onEachFeature: forEachFeature,
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, geojsonMarkerOptions);
-        }
-  });
-
-// Get GeoJSON data and create features.
-$.getJSON(url, function(data) {
-        bbTeam.addData(data);
-});
-
-bbTeam.addTo(map);
-
-$.getJSON(url, function(data) {
-
-    var states = `Location: ${data.Location}<br>
-                Case: ${data.Cases}<br>
-                Twitter: ${data.Twitter}`
+var dataset = 'https://raw.githubusercontent.com/Yichen-Lei/MUSA611_Midterm/master/result_611.geojson';
+var featuregroup;
 
 
-    $(".mypanel").html(text);
-});
-bbTeam.addTo(map);
-
-
-/** Here's a simple 'model' of a slide.
- *  It tracks the slide's index and the title we want in our HTML
- */
-
-
-
-
-var slideExample = {
-  slideNumber: 1,
-  title: "My first slide",
-  filter: function(geojsonFeature) { return true }
+var parseData = function(D)
+{
+  return JSON.parse(D);
 };
 
-/** Here's the simplest implementation I could come up with for
- * representing a deck of slides (nothing exotic is necessary!)
- */
-var slideDeck = [slideExample1, slideExample2, slideExample3]
+var Filter1= function(feature){
+  return feature.properties.Cases!=" ";
+};
+
+// POLYGONS
+var polyStyle1 = function(feature) {
+  if (feature.properties.Cases >10000 ) {
+    return {fillColor: '#FF2D2D', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Cases >5000) {
+    return {fillColor: '#FFCF53', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Cases >2000) {
+    return {fillColor: '#EAFFC0', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.count > 600 ) {
+    return {fillColor: '#A1D7FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else {
+    return {fillColor: '#4D62FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  }
+};
+
+
+var Filter2= function(feature){
+  return feature.properties.Cases>5000;
+};
+
+// POLYGONS
+var polyStyle2 = function(feature) {
+  if (feature.properties.Cases >100000 ) {
+    return {fillColor: '#FF2D2D', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Cases >10000) {
+    return {fillColor: '#FFCF53', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.count >7000 ) {
+    return {fillColor: '#EAFFC0', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else {
+    return {fillColor: '#A1D7FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  }
+};
+
+var Filter3= function(feature){
+  return feature.properties.Twitter!=" ";
+};
+
+var polyStyle3 = function(feature) {
+  if (feature.properties.Twitter >30000 ) {
+    return {fillColor: '#FF2D2D', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Twitter >10000) {
+    return {fillColor: '#FFCF53', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Twitter >6000) {
+    return {fillColor: '#EAFFC0', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Twitter >3000 ) {
+    return {fillColor: '#A1D7FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else {
+    return {fillColor: '#4D62FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  }
+};
+
+var Filter4= function(feature){
+  return feature.properties.sentiment!=" ";
+};
+
+var polyStyle4 = function(feature) {
+  if (feature.properties.sentiment >0.5 ) {
+    return {fillColor: '#85FD55', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.sentiment >0) {
+    return {fillColor: '#EDFF89', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.sentiment > -0.4) {
+    return {fillColor: '#FFF896', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.sentiment >-0.5 ) {
+    return {fillColor: '#FFA24B', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else {
+    return {fillColor: '#FF4B4B', fillOpacity: 0.4, weight: 1, color: 'white'};
+  }
+};
+
+var Filter5= function(feature){
+  return feature.properties.Concern!=" ";
+};
+
+var polyStyle5 = function(feature) {
+  if (feature.properties.Concern >5 ) {
+    return {fillColor: '#FF2D2D', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Concern >4) {
+    return {fillColor: '#FFCF53', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Concern >3) {
+    return {fillColor: '#EAFFC0', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else if (feature.properties.Concern >2 ) {
+    return {fillColor: '#A1D7FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  } else {
+    return {fillColor: '#4D62FF', fillOpacity: 0.4, weight: 1, color: 'white'};
+  }
+};
+
+
+var showResults = function() {
+  $('#intro').hide();
+  $('#results').show();
+};
+
+var eachFeatureFunction = function(layer) {
+  layer.on('click', function (event) {
+  });
+};
+
+//load
+$(document).ready(function() {
+  $.ajax(dataset).done(function(data) {
+    var parsedData = JSON.parse(data);
+    featureGroup = L.geoJson(parsedData, {
+      onEachFeature: function (feature, layer) {
+        layer.myTag = "featureGroup"},
+      style: slides.style,
+      filter: slides.filter,
+    }).addTo(map);
+
+    // quite similar to _.each
+    featureGroup.eachLayer(eachFeatureFunction);
+  });
+});
+
+//remove layer
+var removeMarkers = function() {
+  map.eachLayer( function(layer) {
+    if (layer.myTag && layer.myTag === "featureGroup"){
+      map.removeLayer(layer);
+    }
+  });
+};
+
+
+removeMarkers();
+//    <link rel="stylesheet" href="style.css">

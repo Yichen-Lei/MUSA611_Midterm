@@ -9,32 +9,110 @@
   </head>
   <body>
     <!-- Sidebar -->
-    <div class="sidebar">
-      <div id="intro">
-        <h1>US Coronavirus Map</h1>
-        <p class="main">Coronavirus is spreading acrossing US. This study
+    <div id="sidebar" style="position: absolute; top:0; left: 0; width: 25%; height: 100%; padding: 20px; background-color: grey">
+      <h1 id="intro">US Coronavirus Map</h1>
+        <p id='description'>Coronavirus is spreading acrossing US. This study
         scrapes related data afrom Twitter and counts realated tweets in states.
         In addition, the cases announced by CDC has been add to the map</p>
-        <p>This application shows each state color coded based on number degrees.
-        To get more information about coronavirus for one of the states,
-        click on that region on the map.</p>
-      </div>
-      <div id="results" style="display: none;">
-        <h1 class="day-of-week">Day of Week</h1>
-        <p class="main">Your garbage collection day is <span class="day-of-week">
-        Day of Week</span>.</p>
-        <p>Please be sure to leave your garbage outside on <span class="day-of-week">
-        Day of Week</span>. If this week is a federal holiday, leave your
-        garbage outside on the following day.</p>
-      </div>
+        <button id="nextButton">NEXT</button>
+        <button id="backButton">BACK</button>
     </div>
     <!-- Map -->
-    <div id="map" class="map"></div>
+    <div id="map" style="position: absolute; top:0; right: 0; height: 100%">  </div>
     <!-- Javascript Imports -->
-    <script src="../result_611.js"></script>
     <script src="js/jquery-2.2.0.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/leaflet.js"></script>
     <script src="js/slideModel.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"
+    integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0="
+    crossorigin="anonymous"></script>
+    <script>
+        var slides = [
+          { intro: "Coronavirus Cases in US states",
+          description: "This map shows the coronavirus cases counts in each state",
+          color: "#FFFEC1",
+          filter: Filter1 ,
+          style: polyStyle1},
+          { intro: "Severe States",
+          description: "This map shows states over 10000 cases",
+          color: "#FFFEC1",
+          filter: Filter2 ,
+          style:polyStyle2},
+          { intro: "Twitter Counts in one day",
+          description: "This map shows related twittered collected in one day, illustrating the degree of public concern",
+          color: "#FFFEC1",
+          filter: Filter3,
+          style:polyStyle3},
+          { intro: "Sentiment in Twitter",
+          description: "This map shows the public sentiment based on coronavirus-related tweets in each state",
+          color: "#FFFEC1",
+          filter: Filter4,
+          style: polyStyle4},
+          { intro: "Public Concern Rate",
+          description: "This map shows pbulic concern rate about coronavirus (Twitter Counts/Cases)",
+          color: "#FFFEC1",
+          filter: Filter5,
+          style: polyStyle5}
+        ];
+
+        var currentSlide = -1
+
+        var loadSlide = function(slide) {
+          removeMarkers()
+          $(document).ready(function() {
+            $.ajax(dataset).done(function(data) {
+              var parsedData = JSON.parse(data);
+              featureGroup = L.geoJson(parsedData, {
+                onEachFeature: function (feature, layer) {
+                  layer.myTag = "featureGroup"},
+                style: slide.style,
+                filter: slide.filter,
+              }).addTo(map);
+              featureGroup.eachLayer(eachFeatureFunction);
+            });
+          });
+          $('#intro').text(slide.intro)
+          $('#description').text(slide.description)
+          $('#sidebar').css("background-color", slide.color)
+        }
+
+        var next = function() {
+          if (currentSlide == slides.length - 1) {
+          } else {
+            $('#nextButton').show()
+            currentSlide = currentSlide + 1
+            loadSlide(slides[currentSlide])
+          }
+          if (currentSlide == slides.length - 1) {
+            $('#nextButton').hide()
+          }};
+        $('#nextButton').click(function(e) {
+          if (currentSlide !== -1) {
+            $('#backButton').show()
+          } else {};
+          next()
+        });
+
+        var back = function() {
+          if (currentSlide == slides.length + 1) {
+          } else {
+            $('#backButton').show()
+            currentSlide = currentSlide - 1
+            loadSlide(slides[currentSlide])
+          }
+          if (currentSlide == 0) {
+            $('#backButton').hide()
+          }
+        };
+        $('#backButton').click(function(e) {
+          if (currentSlide !== slides.length) {
+            $('#nextButton').show()
+          } else {};
+          back()
+        });
+
+      </script>
   </body>
 </html>
